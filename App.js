@@ -8,11 +8,45 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import HomeDetailScreen from './src/screens/HomeDetailScreen';
+import ProfileDetailScreen from './src/screens/ProfileDetailScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+
+function MyHomeStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName='Home'
+      screenOptions={{
+        headerStyle: { backgroundColor: 'tomato' },
+        headerBackTitle: '喊回',
+        headerTintColor: 'white'
+      }}
+    >
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="HomeDetailScreen" component={HomeDetailScreen} options={{ title: 'My Detail' }} />
+    </Stack.Navigator>
+  )
+}
+
+function MyProfileStack() {
+  return (
+    <Stack.Navigator
+      initialRouteName='Profile'
+      screenOptions={{
+        headerStyle: { backgroundColor: 'tomato' },
+        headerBackTitle: '喊回2',
+        headerTintColor: 'white'
+      }}
+    >
+      <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="ProfileDetailScreen" component={ProfileDetailScreen} options={{ title: 'My Detail2' }} />
+    </Stack.Navigator>
+  )
+}
 
 export default function App() {
   return (
@@ -20,31 +54,28 @@ export default function App() {
     //   <Text>Open up App.js to start working on your app!</Text>
     //   <StatusBar style="auto" />
     // </View>
+    // <NavigationContainer>
+    //   <Stack.Navigator
+    //     initialRouteName='Home'
+    //     screenOptions={{
+    //       headerStyle: { backgroundColor: 'tomato' },
+    //       headerBackTitle: '喊回',
+    //       headerTintColor: 'white'
+    //     }}
+    //   >
+    //     <Stack.Screen name="Home" component={HomeScreen} />
+    //     <Stack.Screen name="HomeDetailScreen" component={HomeDetailScreen} options={{ title: 'My Detail' }} />
+    //   </Stack.Navigator>
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName='Home'
-        screenOptions={{
-          headerStyle: { backgroundColor: 'tomato' },
-          headerBackTitle: '喊回',
-          headerTintColor: 'white'
-        }}
-      >
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="HomeDetailScreen" component={HomeDetailScreen} options={{ title: 'My Detail' }} />
-      </Stack.Navigator>
 
-
-      {/* <Tab.Navigator
+      <Tab.Navigator
         initialRouteName='Home'
         screenOptions={({ route }) => ({
           tabBarIcon: ({ color, focused }) => {
             let iconName
             if (route.name == 'Home') {
               // iconName = focused ? 'ios-information-circle' : 'ios-information-circle-outline'
-              return <Image
-                src={{ require: './images/mouse.svg' }}
-                style={{ width: 30, height: 30 }} alt="Background"
-              />
+              iconName = 'ios-home'
             } else if (route.name == 'Settings') {
               iconName = 'ios-options'
             }
@@ -56,9 +87,9 @@ export default function App() {
           inactiveTintColor: 'grey'
         }}
       >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Settings" component={ProfileScreen} />
-      </Tab.Navigator> */}
+        <Tab.Screen name="Home" component={MyHomeStack} />
+        <Tab.Screen name="Settings" component={MyProfileStack} />
+      </Tab.Navigator>
     </NavigationContainer>
 
 

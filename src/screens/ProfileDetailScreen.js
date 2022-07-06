@@ -3,20 +3,14 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function HomeDetailScreen(props) {
-
-    const name = props.route.params.name || 'nothing get'
+export default function ProfileDetailScreen(props) {
     return (
         <View style={styles.container}>
-            <Text>Home Detail Screen</Text>
+            <Text>Profile Detail Screen</Text>
             <StatusBar style="auto" />
             <Button
                 title='go back'
-                onPress={() => props.navigation.pop()} />
-            <Text>{name}</Text>
-            <Button
-                title='change first page food'
-                onPress={() => props.route.params.functionA('apple')}
+                onPress={() => props.navigation.pop()}
             />
         </View>
     );
