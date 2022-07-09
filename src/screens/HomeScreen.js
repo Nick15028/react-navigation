@@ -77,9 +77,23 @@ export default function HomeScreen(props) {
     }
 
     useEffect(() => {
-        var book = MOCKED_DATA
-        setDataSource(book)
-    })
+        // var book = MOCKED_DATA
+        // setDataSource(book)
+        fetchData()
+    }, [])
+
+    const fetchData = () => {
+        const REQUEST_URL = 'https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL'
+
+        fetch(REQUEST_URL)
+            .then((response) => response.json())
+            .then((responseData) => {
+                setDataSource(responseData)
+            })
+            .catch((err) => {
+                console.log('error 是 ', err)
+            })
+    }
 
     const showNoticeDetail = (cases) => {
         props.navigation.push('HomeDetailScreen', { passProps: cases })
@@ -91,12 +105,17 @@ export default function HomeScreen(props) {
                 <View>
                     <View style={styles.MainView}>
                         {/* <image/> */}
+                        <Image
+                            source={{ uri: cases.album_file ? cases.album_file : 'https://zxcv.cx/Images/404.png' }}
+                            style={styles.thumbnail}
+                        />
                         <View style={{ flex: 1 }}>
                             <Text ellipsizeMode='tail' numberOfLines={3} style={{ color: 'black', fontSize: 15, marginTop: 8 }}>
-                                {cases.note}
+                                {cases.animal_place}
                             </Text>
                             <Text ellipsizeMode='tail' numberOfLines={3} style={{ marginTop: 8, fontSize: 14, marginBottom: 8 }}>
-                                {cases.date}
+                                {cases.animal_bodytype === 'MEDIUM' ? '中型' :
+                                    cases.animal_bodytype === 'SMALL' ? '小型' : '大型'}{"/" + cases.animal_colour + '的' + cases.animal_kind}
                             </Text>
                         </View>
                         <Image source={require('../../assets/ic_arrow_right.png')} style={styles.image} />
@@ -150,5 +169,10 @@ const styles = StyleSheet.create({
     image: {
         width: 20,
         height: 30
+    },
+    thumbnail: {
+        width: 50,
+        height: 60,
+        marginRight: 10
     }
 });

@@ -21,7 +21,7 @@ function MyHomeStack() {
     <Stack.Navigator
       initialRouteName='Home'
       screenOptions={{
-        headerStyle: { backgroundColor: 'tomato' },
+        headerStyle: { backgroundColor: '#3367d6' },
         headerBackTitle: '喊回',
         headerTintColor: 'white'
       }}
@@ -37,7 +37,7 @@ function MyProfileStack() {
     <Stack.Navigator
       initialRouteName='Profile'
       screenOptions={{
-        headerStyle: { backgroundColor: 'tomato' },
+        headerStyle: { backgroundColor: '#3367d6' },
         headerBackTitle: '喊回2',
         headerTintColor: 'white'
       }}
@@ -83,12 +83,12 @@ export default function App() {
           }
         })}
         tabBarOptions={{
-          activeTintColor: 'tomato',
+          activeTintColor: '#3367d6',
           inactiveTintColor: 'grey'
         }}
       >
-        <Tab.Screen name="Home" component={MyHomeStack} />
-        <Tab.Screen name="Settings" component={MyProfileStack} />
+        <Tab.Screen name="Home" component={MyHomeStack} options={{ headerShown: false }} />
+        <Tab.Screen name="Settings" component={MyProfileStack} options={{ headerShown: false }} />
       </Tab.Navigator>
     </NavigationContainer>
 
