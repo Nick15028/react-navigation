@@ -9,8 +9,14 @@ import HomeScreen from './src/screens/HomeScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
 import HomeDetailScreen from './src/screens/HomeDetailScreen';
 import ProfileDetailScreen from './src/screens/ProfileDetailScreen';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
+// for redux
+import configureStrore from './src/redux/store';
+import { StoreContext } from 'redux-react-hook';
+
+const store = configureStrore()
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -48,7 +54,7 @@ function MyProfileStack() {
   )
 }
 
-export default function App() {
+function App() {
   return (
     // <View style={styles.container}>
     //   <Text>Open up App.js to start working on your app!</Text>
@@ -105,3 +111,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default MyApp = () => (
+  <StoreContext.Provider value={store}>
+    <App />
+  </StoreContext.Provider>
+)
