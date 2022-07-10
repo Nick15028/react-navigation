@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, FlatList, TouchableOpacity, Image } from 'react-native';
+import * as StorageHelper from '../helpers/StorageHelper'
+
 
 var MOCKED_DATA = [
     {
@@ -82,6 +84,25 @@ export default function HomeScreen(props) {
         fetchData()
     }, [])
 
+    useEffect(() => {
+        let getAll = []
+        dataSource.map(a => {
+            if (a.addToMyList === true) {
+                getAll.push(a)
+            }
+        })
+        saveToStorage(getAll)
+    })
+
+    const saveToStorage = async (getMyBooks) => {
+        try {
+            await StorageHelper.setMySetting('myList', JSON.stringify(getMyBooks))
+        } catch (err) {
+            console.log(err)
+        }
+
+    }
+
     const fetchData = () => {
         const REQUEST_URL = 'https://data.coa.gov.tw/Service/OpenData/TransService.aspx?UnitId=QcbUEzN6E6DL'
 
@@ -99,12 +120,27 @@ export default function HomeScreen(props) {
         props.navigation.push('HomeDetailScreen', { passProps: cases })
     }
 
+
+    const pressRow = (cases) => {
+        const newDatas = dataSource.map(a => {
+            let copyA = { ...a }
+            if (copyA.animal_id === cases.animal_id) {
+                copyA.addToMyList = !copyA.addToMyList
+            }
+            return copyA
+        })
+        setDataSource(newDatas)
+    }
+
     const renderBook = (cases) => {
         return (
             <TouchableOpacity onPress={() => showNoticeDetail(cases)}>
                 <View>
                     <View style={styles.MainView}>
                         {/* <image/> */}
+                        <TouchableOpacity onPress={() => pressRow(cases)}>
+                            {cases.addToMyList === true ? <Image style={styles.imageCheck} source={require('../images/ck2.png')} /> : <Image style={styles.imageCheck} source={require('../images/ck1.png')} />}
+                        </TouchableOpacity>
                         <Image
                             source={{ uri: cases.album_file ? cases.album_file : 'https://zxcv.cx/Images/404.png' }}
                             style={styles.thumbnail}
@@ -139,7 +175,7 @@ export default function HomeScreen(props) {
             <FlatList
                 data={dataSource}
                 renderItem={cases => renderBook(cases.item)}
-                keyExtractor={cases => cases.id}
+                keyExtractor={cases => cases.animal_id.toString()}
                 style={{ backgroundColor: 'white' }}
             />
 
@@ -173,6 +209,11 @@ const styles = StyleSheet.create({
     thumbnail: {
         width: 50,
         height: 60,
+        marginRight: 10
+    },
+    imageCheck: {
+        width: 25,
+        height: 25,
         marginRight: 10
     }
 });
