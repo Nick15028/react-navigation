@@ -22,14 +22,19 @@ export default function ProfileScreen(props) {
         let bookGet = await StorageHelper.getMySetting('myList')
 
         // 法一
-        let a = JSON.parse(bookGet)
-        let newArray = []
-        a.forEach((thing) => {
-            newArray.push(thing.animal_colour + '的' + thing.animal_kind)
-        });
+        // let a = JSON.parse(bookGet)
+        // let newArray = []
+        // a.forEach((thing) => {
+        //     newArray.push(thing.animal_colour + '的' + thing.animal_kind)
+        // });
 
+        // setMyBookCount(a.length)
+        // setMyBookListName(newArray)
+
+        // 法二
+        let a = JSON.parse(bookGet)
         setMyBookCount(a.length)
-        setMyBookListName(newArray)
+        setMyBookListName(a)
 
     }
 
@@ -62,13 +67,18 @@ export default function ProfileScreen(props) {
             <Text>Profile Screen</Text>
             <Text>我收藏了{myBookCount}個寵物認養</Text>
             {/* 法一渲染 */}
-            {
+            {/* {
                 myBookListName.map((pet, index) => {
                     return (<Text key={index}>認養寵物為：{pet}</Text>)
                 })
+            } */}
+
+            {/* 法二渲染 */}
+            {
+                myBookListName.map((pet, index) => {
+                    return (<Text key={index}>認養寵物為：{pet.animal_colour + '的' + pet.animal_kind}</Text>)
+                })
             }
-
-
 
             {/* <StatusBar style="auto" />
             <TextInput
